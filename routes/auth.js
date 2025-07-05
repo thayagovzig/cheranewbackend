@@ -15,6 +15,12 @@ const otpLimiter = rateLimit({
   },
   standardHeaders: true,
   legacyHeaders: false,
+  // Configure for nginx proxy - trust only first proxy
+  trustProxy: 1,
+  // Additional security: skip rate limiting for health checks
+  skip: (req) => {
+    return req.path === '/health' || req.path === '/api/health';
+  }
 });
 
 // Validation middleware
