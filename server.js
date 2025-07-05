@@ -9,21 +9,24 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { requestLogger } from './middleware/logger.js';
 import logger from './config/logger.js';
 
-// Load environment variables
-dotenv.config();
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Load environment variables
+dotenv.config({ path: join(__dirname, '.env') });
+
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Trust proxy for nginx
+app.set('trust proxy', true);
 
 // Security middleware
 app.use(helmet());
 
 // CORS configuration
 app.use(cors({
-  origin:'http://38.242.230.58',
+  origin: 'http://156.67.111.97',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
